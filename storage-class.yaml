@@ -1,0 +1,14 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: myclass
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+  zones: ap-south-1a
+  iopsPerGB: "20"
+  fsType: "ext4"
+reclaimPolicy: "Delete"   #Delete/Recycle
+
+
+

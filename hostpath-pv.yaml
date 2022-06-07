@@ -1,0 +1,23 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: host-vol
+  labels:
+    vol: host
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle   #Retain / Delete 
+  hostPath:
+    path: "/tmp"
+  volumeMode: Filesystem
+  # nodeAffinity:
+  #   required:
+  #     nodeSelectorTerms:
+  #       - matchExpressions:
+  #           - key: nginx
+  #             operator: In
+  #             values:
+  #             - app1

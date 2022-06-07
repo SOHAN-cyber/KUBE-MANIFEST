@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  my-name
+  labels:
+    name:  ebs-sc
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      name:  ebs-sc
+  template:
+    metadata:
+      labels:
+        name:  ebs-sc
+    spec:
+      containers:
+      - image:  nginx
+        name:  nginx
+        imagePullPolicy: Always
+        # restartPolicy: Always
+        resources:
+          requests:
+            cpu: "20m"
+            memory: "55M"
+          limits:
+            cpu: "20m"
+            memory: "55M"
+        env:
+        - name:  ebs
+          value:  Checking the storagecalss for dyanmic provisioning       
+        ports:
+        - containerPort:  80
+          name:  nginx-port
+        volumeMounts:
+        - mountPath: /data
+          name: data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: awd-ebs-pvc
+      
+      

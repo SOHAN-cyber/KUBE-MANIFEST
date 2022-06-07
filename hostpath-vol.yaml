@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  hostpath-vol
+  labels:
+    name:  host
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      name:  host
+  template:
+    metadata:
+      labels:
+        name:  host
+    spec:
+      containers:
+      - image:  nginx
+        name:  nginx-image
+        resources:
+          requests:
+            cpu: "20m"
+            memory: "55M"
+          limits:
+            cpu: "30m"
+            memory: "55M"
+        env:
+        - name:  host
+          value:  Checking the hostpath volume       
+        ports:
+        - containerPort:  80
+          name:  nginx-port
+        volumeMounts:
+        - mountPath: /data
+          name: hostpath-vol
+      volumes:
+        - name: hostpath-vol
+          hostPath:
+            path: "/sohan"
+            type: DirectoryOrCreate

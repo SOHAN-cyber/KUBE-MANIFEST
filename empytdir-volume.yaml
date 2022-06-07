@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  emtpy-dir
+  labels:
+    name:  empyt
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      name:  empyt
+  template:
+    metadata:
+      labels:
+        name:  empyt
+    spec:
+      containers:
+      - image:  nginx
+        name:  nginx-image
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "20m"
+            memory: "55M"
+          limits:
+            cpu: "20m"
+            memory: "55M"
+        env:
+        - name:  empty
+          value:  checking the volume       
+        ports:
+        - containerPort:  80
+          name:  port
+        volumeMounts:
+        - mountPath: /test
+          name: empty-vol
+      volumes:
+        - name: empty-vol
+          emptyDir: {}
+      restartPolicy: Always
+      
