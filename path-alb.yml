@@ -1,0 +1,62 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: default
+  name: ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service: 
+              name: empms-frontend
+              port:
+                number: 5000
+        - path: /attendance
+          pathType: Prefix
+          backend:
+            service: 
+              name: empms-attendance
+              port:
+                number: 8081
+        - path: /db
+          pathType: Prefix
+          backend:
+            service: 
+              name: empms-db
+              port:
+                number: 3306
+        - path: /employee
+          pathType: Prefix
+          backend:
+            service: 
+              name: empms-employee
+              port:
+                number: 8083
+        - path: /es
+          pathType: Prefix
+          backend:
+            service: 
+              name: empms-es
+              port:
+                number: 9200
+        - path: /gateway
+          pathType: Prefix
+          backend:
+            service: 
+              name: empms-gateway
+              port:
+                number: 8080
+        - path: /web
+          pathType: Prefix
+          backend:
+            service: 
+              name: empms-webserver
+              port:
+                number: 80
